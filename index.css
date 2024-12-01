@@ -1,0 +1,113 @@
+html,
+body,
+body div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+time,
+mark,
+audio,
+video {
+  /* HTML5 display-role reset for older browsers */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+html {
+  background: #242424;
+  color: #dbdbdb;
+}
+
+body {
+  overflow: hidden;
+  /* hide document scroll bar */
+  position: relative;
+  /* set body to document absolute postion ancester */
+}
+
+/* 
+userEventManager intend to capture compostion event 
+ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/compositionupdate_event
+
+zh-translation is wrong (note: 2024-11-29, may update after the date)
+*/
+
+#composition {
+  width: auto; /* 0px will fail */
+  height: auto; /* 0px will fail */
+  position: absolute; /* must be absolute */
+
+  top: -10000000px; /* move this ui element out of the viewport */
+  left: -10000000px; /* move this ui element out of the viewport */
+  /*
+    Warning: this is dirty solution, but you can't find a better solution
+    this usage you can found in `visual studio code` project
+    ref: https://github.com/microsoft/vscode/blob/main/src/vs/editor/browser/config/charWidthReader.ts#L66-L69
+    you can add some dom node you won't visible in the viewport, but you have to use dom api, 
+    because standard force this api depend on the dom node, such as `composition event` or `offsetWidth`
+    generally speaking, some dom event, computated property, or dom api depend on the dom node,
+    e.g. https://github.com/microsoft/vscode/blob/main/src/vs/editor/browser/config/charWidthReader.ts#L130-L138
+
+  */
+  content-visibility: visible; /* must be visible */
+}
+/* after compoistion end, you must clear userEventManager.inerHTML */
