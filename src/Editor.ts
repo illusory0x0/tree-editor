@@ -493,14 +493,14 @@ export class Editor {
 export let editor = new Editor(t_map)
 
 export let updateView = () => {
-    render(renderSequence(new Point(10, 10),
-        new Layer(
-            [
-                editor.selection_uiref,
-                position(new Point(0, 0), editor.doc_ui),
-                editor.inputBox.ref,
-            ]
-        )))
+    // render(renderSequence(new Point(10, 10),
+    //     new Layer(
+    //         [
+    //             editor.selection_uiref,
+    //             position(new Point(0, 0), editor.doc_ui),
+    //             editor.inputBox.ref,
+    //         ]
+    //     )))
 }
 let modifier_keys = new Set(['Control', 'Shift', 'Alt'])
 
