@@ -12,7 +12,7 @@ import {
 } from './CanvasElement'
 import { Tree, ColorText, toTree, format, t_map, Doc, ArrayTree, toArrayTree } from './format'
 import { isomorphism_Node_SelectionRegion, SelectionRegion, generate_isomorphism_Cursor_Node, from_LeafNode_to_Cursor, Node, generate_isomorphism_Node_SelectionRegion } from './isomorphism_Node_SelectionRegion'
-import { canvas, composition, anchor } from './global'
+import { canvas, composition, anchor } from './Global'
 
 
 export let resize = () => {
