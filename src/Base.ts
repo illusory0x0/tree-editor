@@ -4,6 +4,7 @@ import * as Rect from './Base/Rect'
 import * as Size from './Base/Size'
 import * as Thickness from './Base/Thickness'
 import * as Vector from './Base/Vector'
+import * as Glyph from './Base/Glyph'
 import { round } from './Base/Color'
 
-export { Color, Font, Rect, Size, Thickness, Vector,round }
+export { Color, Font, Rect, Size, Thickness, Vector, Glyph, round }

@@ -1,47 +1,54 @@
 import '../index.css'
-import { EditMode, editor, resize, updateView} from './Editor'
+import { Vector } from './Base'
+import * as Church from './Expr/Church'
+import * as Expr from './Expr/Expr'
+import * as Value from './Expr/Value'
+import * as Renderable from './Element/Renderable'
+import * as TextCursor from './Expr/TextCursor'
+import * as Global from './Global'
+import * as Editor from './Editor/Editor'
+import { update_txtcsr, update_expcsr, sync_txtsel } from './Editor/Editor'
+
+let lhs = Church.from(3)
+let rhs = Church.from(4)
+let v = Expr.App(Expr.App(Expr.Var("add"), lhs), rhs)
 
 
+let model = Editor.makeModel(Value.runProgram(Church.defs, v))
+let view = Editor.makeView(model)
 
 
-
-import * as Element from './new/Element/Element'
-import { Font ,Color , Vector, Thickness} from './new/Base'
-let monospace = Font.make(
-    [],
-    [Font.GenericFamily.Monospace],
-    10,
-    Font.Style.Normal,
-    1.2
-)
-
-import { canvas } from './Global'
-
-let ctx = canvas.getContext('2d')! 
-let text = Element.text('Hello World',monospace,Color.hsl(0,0,100))
-
-let padding_text = Element.padding(
-    Element.Render(text),
-    Thickness.same(2),
-    Color.hsl(0,100,50)
-)
-
-let border_text = Element.border(
-    Element.Render(text),
-    Thickness.same(2),
-    Color.hsl(120,100,50)
-)
-
-let stack = Element.vstack([
-  padding_text,
-  border_text
-],0)
+let renderApp = () => {
+  let rs = Editor.toRenderSequence(view, Vector.make(20, 20))
+  let ctx = Global.canvas.getContext('2d')!
+  Renderable.renderSequence(ctx, rs)
+}
+window.addEventListener('keydown', (e) => {
+  let key = e.key
+  if (key === "h") {
+    update_txtcsr(model, TextCursor.moveLeft(model.txtcsr, model.csrbij))
+    sync_txtsel(view, model.txtsel)
+  } else if (key === "j") {
+    update_txtcsr(model, TextCursor.moveDown(model.txtcsr, model.csrbij))
+    sync_txtsel(view, model.txtsel)
+  } else if (key === "k") {
+    update_txtcsr(model, TextCursor.moveUp(model.txtcsr, model.csrbij))
+    sync_txtsel(view, model.txtsel)
+  } else if (key === "l") {
+    update_txtcsr(model, TextCursor.moveRight(model.txtcsr, model.csrbij))
+    sync_txtsel(view, model.txtsel)
+  } else if (key === "L") {
+    update_expcsr(model, Expr.parent(model.expcsr, model.exp) ?? model.expcsr)
+    sync_txtsel(view, model.txtsel)
+  }
+  renderApp()
+})
 
 let main = () => {
-  resize()
-  let rs = Element.getRenderSequence(Vector.make(30,30), stack)
-  Element.renderSequence(ctx,rs)
-
+  Global.resize()
+  renderApp()
 }
-// window.addEventListener('resize', main)
+
 main()
+
+window.addEventListener('resize', () => { main() })

@@ -1,4 +1,4 @@
-import { assert } from "../Prelude/Assert/assert";
+import { assert } from "../Prelude/Assert";
 import { String } from "../Prelude";
 
 export type t = Uint8Array
@@ -53,13 +53,17 @@ export let hsla = (h: int, s: int, l: int, a: int) : t => {
 
 }
 
-export let hsl = (h: int, s: float, l: float) : t => hsla(h, s, l, 100)
+export let hsl = (h: int, s: int, l: int) : t => hsla(h, s, l, 100)
 
 export let toCSS = (c: t) : string => {
-    let to = (x: int) => String.padding_start(2, "0", x.toString(16))
+    let to = (x: int) => String.padding_start(x.toString(16), "0",2)
     let r = to(c[0])
     let g = to(c[1])
     let b = to(c[2])
     let a = to(c[3])
     return `#${r}${g}${b}${a}`   
 }
+
+export let white = hsl(0, 0, 100)
+export let black = hsl(0, 0, 0)
+export let gray  = hsl(0, 0, 50)
