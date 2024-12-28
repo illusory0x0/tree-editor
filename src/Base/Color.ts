@@ -3,8 +3,6 @@ import { String } from "../Prelude";
 
 export type t = Uint8Array
 
-export let round = Math.round 
-
 // don't use Visual Studio Code's color picker, it's broken
 export let rgba = (r: int, g: int, b: int, a: int) : t => {
     assert(0 <= r && r <= 255 && Number.isInteger(r))
@@ -19,6 +17,8 @@ export let rgb = (r: int, g: int, b: int) : t => rgba(r, g, b, 255)
 
 
 export let hsla = (h: int, s: int, l: int, a: int) : t => {
+    let round = Math.round
+    
     assert(0 <= h && h < 360 && Number.isInteger(h))
     assert(0 <= s && s <= 100 && Number.isInteger(s))
     assert(0 <= l && l <= 100 && Number.isInteger(l))

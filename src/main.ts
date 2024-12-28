@@ -1,26 +1,27 @@
 import '../index.css'
 import { Vector } from './Base'
-import * as Church from './Expr/Church'
-import * as Expr from './Expr/Expr'
-import * as Value from './Expr/Value'
-import * as Renderable from './Element/Renderable'
-import * as TextCursor from './Expr/TextCursor'
+import { Church, Doc, Expr, Line, Text, TextCursor, TextSelection, Value } from './Expr'
+import { Renderable } from './Element'
+
 import * as Global from './Global'
-import * as Editor from './Editor/Editor'
-import { update_txtcsr, update_expcsr, sync_txtsel } from './Editor/Editor'
+import * as Editor from './Editor'
+import { update_txtcsr, update_expcsr } from './Editor/Model'
+import { sync_txtsel } from './Editor/View'
+
 
 let lhs = Church.from(3)
 let rhs = Church.from(4)
 let v = Expr.App(Expr.App(Expr.Var("add"), lhs), rhs)
 
 
-let model = Editor.makeModel(Value.runProgram(Church.defs, v))
-let view = Editor.makeView(model)
+let model = Editor.Model.make(Value.runProgram(Church.defs, v))
+let view = Editor.View.make(model)
 
 
 let renderApp = () => {
-  let rs = Editor.toRenderSequence(view, Vector.make(20, 20))
+  let rs = Editor.View.toRenderSequence(view, Vector.make(20, 20))
   let ctx = Global.canvas.getContext('2d')!
+  ctx.clearRect(0,0,window.innerWidth,window.innerHeight)
   Renderable.renderSequence(ctx, rs)
 }
 window.addEventListener('keydown', (e) => {
@@ -51,4 +52,4 @@ let main = () => {
 
 main()
 
-window.addEventListener('resize', () => { main() })
+window.addEventListener('resize', main)

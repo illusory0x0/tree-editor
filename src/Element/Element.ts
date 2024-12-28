@@ -1,4 +1,4 @@
-import { Vector, Size, Font, Color, Thickness, round } from "../Base";
+import { Vector, Size, Font, Color, Thickness } from "../Base";
 import { array, Array, Assert } from "../Prelude"
 import * as Renderable from "./Renderable";
 
